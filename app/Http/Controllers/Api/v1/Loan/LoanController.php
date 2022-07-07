@@ -7,7 +7,9 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Helpers\ApiResponse;
 use App\Http\Requests\Loan\LoanFormRequest;
+use App\Models\User;
 use App\Services\LoanService;
+use Illuminate\Support\Facades\Auth;
 
 class LoanController extends Controller
 {
@@ -20,9 +22,9 @@ class LoanController extends Controller
     {
         $loan = $loanService->create($request);
 
-         return (new ApiResponse(
+        return (new ApiResponse(
             data: $loan->toArray(),
-            message: __('settings.model_saved', ['model' =>'loan request'])
+            message: __('settings.model_saved', ['model' => 'loan request'])
         ))->asSuccessful();
     }
 
@@ -35,8 +37,8 @@ class LoanController extends Controller
     {
         $loan = $loanService->update($request, $id);
 
-         return (new ApiResponse(
-            message: __('settings.model_updated', ['model' =>'loan request'])
+        return (new ApiResponse(
+            message: __('settings.model_updated', ['model' => 'loan request'])
         ))->asSuccessful();
     }
 
@@ -101,15 +103,37 @@ class LoanController extends Controller
         ))->asSuccessful();
     }
 
-        /**
+    /**
      * Approve a loan.
      *
      * @param  \App\Models\Loan  $loan
      * @return \Illuminate\Http\Response
      */
-    public function approveLoan(Request $request)
+    public function approveLoan(Request $request, LoanService $loanService)
     {
-        //
+        $loan = $loanService->pendingLoan($request);
+
+        if (!$loan) {
+
+            return (new ApiResponse(
+                message: __('settings.model_not_exist', ['model' => 'loan request'])
+            ))->asNotFound();
+        }
+
+        $loan_requester = $loan->user_id;
+        $user_id = Auth::id();
+        $check_id = User::where('id', $loan_requester)->first()->id;
+        if ($user_id == $check_id) {
+            return (new ApiResponse(
+                message: __('settings.model_cannot_approve_self', ['model' => 'loan request'])
+            ))->asNotFound();
+        }
+        
+        $loan = $loanService->approve($request);
+
+        return (new ApiResponse(
+            message: __('settings.model_approved', ['model' => 'loan request'])
+        ))->asSuccessful();
     }
 
     /**
@@ -118,8 +142,30 @@ class LoanController extends Controller
      * @param  \App\Models\Loan  $loan
      * @return \Illuminate\Http\Response
      */
-    public function declineLoan(Request $request)
+    public function declineLoan(Request $request, LoanService $loanService)
     {
-        //
+        $loan = $loanService->pendingLoan($request);
+
+        if (!$loan) {
+
+            return (new ApiResponse(
+                message: __('settings.model_not_exist', ['model' => 'loan request'])
+            ))->asNotFound();
+        }
+
+        $loan_requester = $loan->user_id;
+        $user_id = Auth::id();
+        $check_id = User::where('id', $loan_requester)->first()->id;
+        if ($user_id == $check_id) {
+            return (new ApiResponse(
+                message: __('settings.model_cannot_decline_self', ['model' => 'loan request'])
+            ))->asNotFound();
+        }
+
+        $loan = $loanService->decline($request);
+
+        return (new ApiResponse(
+            message: __('settings.model_declined', ['model' => 'loan request'])
+        ))->asSuccessful();
     }
 }

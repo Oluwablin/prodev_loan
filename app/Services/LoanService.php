@@ -9,6 +9,9 @@ use App\Services\BaseService;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Notification;
 use App\Notifications\LoanApprovalRequestNotification;
+use App\Helpers\ApiResponse;
+use App\Notifications\LoanApprovedNotification;
+use App\Notifications\LoanDeclinedNotification;
 
 class LoanService extends BaseService
 {
@@ -83,5 +86,45 @@ class LoanService extends BaseService
         if ($loan) {
             $loan->delete();
         }
+    }
+
+    public function approve(Request $request)
+    {
+        $loan = Loan::where('status', 'pending')->find($request->id);
+
+        if($loan){        
+            $loan->update(['status' => 'approved']);
+
+            $loan_requester = $loan->user_id;
+            $user = User::where('id', $loan_requester)->first();
+            if($user){
+                Notification::send($user, new LoanApprovedNotification($user));
+            }
+            
+        }
+
+        return $loan;
+    }
+
+    public function decline(Request $request)
+    {
+        $loan = Loan::where('status', 'pending')->find($request->id);
+
+        if($loan){
+            $loan->update(['status' => 'rejected']);
+
+            $loan_requester = $loan->user_id;
+            $user = User::where('id', $loan_requester)->first();
+            if($user){
+                Notification::send($user, new LoanDeclinedNotification($user));
+            }
+        }
+
+        return $loan;
+    }
+
+    public function pendingLoan(Request $request)
+    {
+        return Loan::where('status', 'pending')->find($request->id);
     }
 }
