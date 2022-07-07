@@ -20,8 +20,8 @@ return new class extends Migration
             $table->enum('status', ['pending', 'approved', 'rejected'])->default('pending');
             $table->enum('loan_type', ['days', 'months', 'year'])->nullable();
             $table->integer('duration')->nullable();
-            $table->string('approved_at');
-            $table->string('approved_by');
+            $table->timestamp('approved_at')->nullable();
+            $table->string('approved_by')->nullable();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->timestamps();
         });

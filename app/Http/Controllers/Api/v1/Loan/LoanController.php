@@ -22,7 +22,7 @@ class LoanController extends Controller
 
          return (new ApiResponse(
             data: $loan->toArray(),
-            message: __('settings.model_saved', ['model' =>'Loan'])
+            message: __('settings.model_saved', ['model' =>'loan request'])
         ))->asSuccessful();
     }
 
@@ -36,7 +36,7 @@ class LoanController extends Controller
         $loan = $loanService->update($request, $id);
 
          return (new ApiResponse(
-            message: __('settings.model_updated', ['model' =>'Loan'])
+            message: __('settings.model_updated', ['model' =>'loan request'])
         ))->asSuccessful();
     }
 
@@ -52,11 +52,11 @@ class LoanController extends Controller
 
         if (!$loan) {
             return (new ApiResponse(
-                message: __('settings.model_not_exist', ['model' => 'Loan'])
+                message: __('settings.model_not_exist', ['model' => 'loan request'])
             ))->asBadRequest();
         }
 
-        $loan = Loan::where('id', $id)->first();
+        $loan = Loan::with('user')->where('id', $id)->first();
 
         return (new ApiResponse(
             data: $loan->toArray()
@@ -90,14 +90,14 @@ class LoanController extends Controller
 
         if (!$loan) {
             return (new ApiResponse(
-                message: __('settings.model_not_exist', ['model' => 'Loan'])
+                message: __('settings.model_not_exist', ['model' => 'loan request'])
             ))->asBadRequest();
         }
 
         $delete_loan = $loanService->delete($id);
 
         return (new ApiResponse(
-            message: __('settings.model_deleted', ['model' => 'Loan'])
+            message: __('settings.model_deleted', ['model' => 'loan request'])
         ))->asSuccessful();
     }
 
