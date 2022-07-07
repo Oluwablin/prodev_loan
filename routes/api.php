@@ -29,5 +29,19 @@ Route::group(['namespace' => 'App\Http\Controllers\Api\v1\Auth', 'prefix' => 'v1
 //Authenticated Routes
 Route::group(['middleware' => 'auth:api', 'namespace' => 'App\Http\Controllers\Api\v1', 'prefix' => 'v1'], function () {
 
+    Route::group(['prefix' => 'loan'], function () {
+        Route::post('/create', ['uses' => 'Loan\LoanController@createLoan']);
+        Route::put('/update/{id}', ['uses' => 'Loan\LoanController@updateLoan']);
+        Route::get('/view/{id}', ['uses' => 'Loan\LoanController@viewLoan']);
+        Route::get('/list', ['uses' => 'Loan\LoanController@listLoan']);
+        Route::delete('/delete/{id}', ['uses' => 'Loan\LoanController@deleteLoan']);
+
+        //Admin
+        Route::group(['middleware' => ['role:admin']], function () {
+            Route::post('/approve', ['uses' => 'Loan\LoanController@approveLoan']);
+            Route::post('/decline', ['uses' => 'Loan\LoanController@declineLoan']);
+        });
+        
+    });
 
 });

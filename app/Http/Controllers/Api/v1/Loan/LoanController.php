@@ -5,36 +5,44 @@ namespace App\Http\Controllers\Api\v1\Loan;
 use App\Models\Loan;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Helpers\ApiResponse;
+use App\Http\Requests\Loan\LoanFormRequest;
+use App\Services\LoanService;
 
 class LoanController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Create a loan request.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function createLoan(LoanFormRequest $request, LoanService $loanService)
+    {
+        $loan = $loanService->create($request);
+
+         return (new ApiResponse(
+            data: $loan->toArray(),
+            message: __('settings.model_saved', ['model' =>'Loan'])
+        ))->asSuccessful();
+    }
+
+    /**
+     * Update a loan request.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function updateLoan(Request $request, $id)
     {
         //
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
+     * View a loan.
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function viewLoan(Request $request, $id)
     {
         //
     }
@@ -45,30 +53,7 @@ class LoanController extends Controller
      * @param  \App\Models\Loan  $loan
      * @return \Illuminate\Http\Response
      */
-    public function show(Loan $loan)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Loan  $loan
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Loan $loan)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Loan  $loan
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Loan $loan)
+    public function listLoan(Request $request)
     {
         //
     }
@@ -79,7 +64,29 @@ class LoanController extends Controller
      * @param  \App\Models\Loan  $loan
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Loan $loan)
+    public function deleteLoan(Request $request, $id)
+    {
+        //
+    }
+
+        /**
+     * Approve a loan.
+     *
+     * @param  \App\Models\Loan  $loan
+     * @return \Illuminate\Http\Response
+     */
+    public function approveLoan(Request $request)
+    {
+        //
+    }
+
+    /**
+     * Decline a loan
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Models\Loan  $loan
+     * @return \Illuminate\Http\Response
+     */
+    public function declineLoan(Request $request)
     {
         //
     }
