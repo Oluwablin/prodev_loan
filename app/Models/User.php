@@ -15,15 +15,26 @@ class User extends Authenticatable implements JWTSubject
 {
     use HasApiTokens, HasFactory, Notifiable, SoftDeletes, HasRoleAndPermission;
 
+    // Values for user roles
+    const isUser = 2;
+    const isAdmin = 1;
+
+    protected $with = ['roles'];
+
     /**
      * The attributes that are mass assignable.
      *
      * @var array<int, string>
      */
     protected $fillable = [
-        'name',
+        'username',
+        'first_name',
+        'last_name',
+        'image',
         'email',
+        'phone',
         'password',
+        'is_verified',
     ];
 
     /**
@@ -63,5 +74,16 @@ class User extends Authenticatable implements JWTSubject
     public function getJWTCustomClaims()
     {
         return [];
+    }
+
+    //Relationships
+    public function role()
+    {
+        return $this->belongsToMany(RoleUser::class);
+    }
+
+    public function roles()
+    {
+        return $this->belongsToMany(Role::class);
     }
 }

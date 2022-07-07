@@ -42,6 +42,42 @@ class PermissionsTableSeeder extends Seeder
                 'description' => 'Can delete users',
                 'model'       => 'Permission',
             ],
+            [
+                'name'        => 'Can View Loans',
+                'slug'        => 'view.loans',
+                'description' => 'Can view loans',
+                'model'       => 'Permission',
+            ],
+            [
+                'name'        => 'Can Create Loans',
+                'slug'        => 'create.loans',
+                'description' => 'Can create new loans',
+                'model'       => 'Permission',
+            ],
+            [
+                'name'        => 'Can Edit Loans',
+                'slug'        => 'edit.loans',
+                'description' => 'Can edit loans',
+                'model'       => 'Permission',
+            ],
+            [
+                'name'        => 'Can Delete Loans',
+                'slug'        => 'delete.loans',
+                'description' => 'Can delete loans',
+                'model'       => 'Permission',
+            ],
+            [
+                'name'        => 'Can Approve Loans',
+                'slug'        => 'approve.loans',
+                'description' => 'Can approve loans',
+                'model'       => 'Permission',
+            ],
+            [
+                'name'        => 'Can Reject Loans',
+                'slug'        => 'reject.loans',
+                'description' => 'Can reject loans',
+                'model'       => 'Permission',
+            ],
         ];
 
         /*
