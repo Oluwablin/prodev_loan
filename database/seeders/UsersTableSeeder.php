@@ -30,6 +30,7 @@ class UsersTableSeeder extends Seeder
                 'is_verified' => 1,
                 'phone'    => '+234810',
                 'username'    => 'AdminAdmin1',
+                'email_verified_at'    => now(),
             ]);
 
             $newUser->attachRole($adminRole);
@@ -47,6 +48,7 @@ class UsersTableSeeder extends Seeder
                 'is_verified' => 1,
                 'phone'    => '+234811',
                 'username'    => 'DefaultUser2',
+                'email_verified_at'    => now(),
             ]);
 
             $newUser->attachRole($userRole);
