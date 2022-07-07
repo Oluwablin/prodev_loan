@@ -22,7 +22,7 @@ class LoginController extends Controller
         $data = $this->authService->login($email, $password);
 
         return (new ApiResponse(
-            data: $data,
+            data: [$data],
             message: __('auth.successful')
         ))->asSuccessful();
 

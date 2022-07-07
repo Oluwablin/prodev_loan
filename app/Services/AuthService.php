@@ -8,6 +8,7 @@ use App\Services\BaseService;
 use App\Exceptions\ApiNotFoundException;
 use App\Exceptions\ApiException;
 use Illuminate\Support\Str;
+use Tymon\JWTAuth\Facades\JWTAuth;
 
 class AuthService extends BaseService
 {
@@ -37,7 +38,7 @@ class AuthService extends BaseService
         $data = [
             'accessToken' => $attempt,
             'tokenType' => 'Bearer',
-            'expires_in' => auth()->factory()->getTTL() * 60,
+            'expires_in' => JWTAuth::factory()->getTTL() * 60,
             'user' => $user,
         ];
 

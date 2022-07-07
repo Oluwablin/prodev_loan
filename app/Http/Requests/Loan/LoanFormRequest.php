@@ -19,16 +19,16 @@ class LoanFormRequest extends BaseFormRequest
         switch ($this->method()) {
             case 'POST':
                 return [
-                    'loan_amount' => 'required|float',
-                    'status' => ['required', Rule::in(['pending', 'approved', 'rejected'])],
+                    'loan_amount' => 'required',
+                    'status' => [Rule::in(['pending', 'approved', 'rejected'])],
                     'loan_type' => ['required', Rule::in(['days', 'months', 'year'])],
                     'duration' => 'required',
                 ];
                 break;
             case 'PUT':
                 return [
-                    'loan_amount' => 'required|float',
-                    'status' => ['required', Rule::in(['pending', 'approved', 'rejected'])],
+                    'loan_amount' => 'required',
+                    'status' => [Rule::in(['pending', 'approved', 'rejected'])],
                     'loan_type' => ['required', Rule::in(['days', 'months', 'year'])],
                     'duration' => 'required',
                 ];

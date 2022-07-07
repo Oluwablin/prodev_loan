@@ -20,7 +20,6 @@ class Loan extends Model
         'status',
         'loan_type',
         'duration',
-        'phone',
         'approved_at',
         'approved_by',
     ];

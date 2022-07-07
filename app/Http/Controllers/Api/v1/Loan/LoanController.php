@@ -31,9 +31,13 @@ class LoanController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function updateLoan(Request $request, $id)
+    public function updateLoan(LoanFormRequest $request, LoanService $loanService, $id)
     {
-        //
+        $loan = $loanService->update($request, $id);
+
+         return (new ApiResponse(
+            message: __('settings.model_updated', ['model' =>'Loan'])
+        ))->asSuccessful();
     }
 
     /**
@@ -42,9 +46,21 @@ class LoanController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function viewLoan(Request $request, $id)
+    public function viewLoan(LoanService $loanService, $id)
     {
-        //
+        $loan = $loanService->find($id);
+
+        if (!$loan) {
+            return (new ApiResponse(
+                message: __('settings.model_not_exist', ['model' => 'Loan'])
+            ))->asBadRequest();
+        }
+
+        $loan = Loan::where('id', $id)->first();
+
+        return (new ApiResponse(
+            data: $loan->toArray()
+        ))->asSuccessful();
     }
 
     /**
@@ -53,9 +69,13 @@ class LoanController extends Controller
      * @param  \App\Models\Loan  $loan
      * @return \Illuminate\Http\Response
      */
-    public function listLoan(Request $request)
+    public function listLoan(Request $request, LoanService $loanService)
     {
-        //
+        $loan = $loanService->list($request);
+
+        return (new ApiResponse(
+            data: $loan->toArray()
+        ))->asSuccessful();
     }
 
     /**
@@ -64,9 +84,21 @@ class LoanController extends Controller
      * @param  \App\Models\Loan  $loan
      * @return \Illuminate\Http\Response
      */
-    public function deleteLoan(Request $request, $id)
+    public function deleteLoan(LoanService $loanService, $id)
     {
-        //
+        $loan = $loanService->find($id);
+
+        if (!$loan) {
+            return (new ApiResponse(
+                message: __('settings.model_not_exist', ['model' => 'Loan'])
+            ))->asBadRequest();
+        }
+
+        $delete_loan = $loanService->delete($id);
+
+        return (new ApiResponse(
+            message: __('settings.model_deleted', ['model' => 'Loan'])
+        ))->asSuccessful();
     }
 
         /**
