@@ -1,9 +1,10 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Api\v1\Loan;
 
 use App\Models\Loan;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 
 class LoanController extends Controller
 {

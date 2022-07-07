@@ -16,5 +16,10 @@ return [
     'failed' => 'These credentials do not match our records.',
     'password' => 'The provided password is incorrect.',
     'throttle' => 'Too many login attempts. Please try again in :seconds seconds.',
+    'successful' => 'Login successfully.',
+    'logout' => 'You have successfully logged out.',
+    'refresh_token' => 'Token refreshed successfully.',
+    'unverified' => 'Your email hasn\'t been verified. We have resent the verification email. Please check your email to verify.',
+    'deactivated' => 'This user has been deactivated.',
 
 ];
