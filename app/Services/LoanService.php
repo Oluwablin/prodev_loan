@@ -93,7 +93,11 @@ class LoanService extends BaseService
         $loan = Loan::where('status', 'pending')->find($request->id);
 
         if($loan){        
-            $loan->update(['status' => 'approved']);
+            $loan->update([
+                'status' => 'approved',
+                'approved_by' => Auth::user()->first_name . ' ' . Auth::user()->last_name,
+                'approved_at' => now()
+            ]);
 
             $loan_requester = $loan->user_id;
             $user = User::where('id', $loan_requester)->first();
@@ -111,7 +115,9 @@ class LoanService extends BaseService
         $loan = Loan::where('status', 'pending')->find($request->id);
 
         if($loan){
-            $loan->update(['status' => 'rejected']);
+            $loan->update([
+                'status' => 'rejected',
+            ]);
 
             $loan_requester = $loan->user_id;
             $user = User::where('id', $loan_requester)->first();
