@@ -72,6 +72,7 @@ class LoanService extends BaseService
             $loan = $loan->get();
         }
 
+        
         return $loan;
     }
 
